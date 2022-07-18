@@ -14,21 +14,42 @@ class AuthMethods {
     required String password,
     required String username,
     required String bio,
-    required Uint8List file,
+    // required Uint8List file,
   }) async {
     String res = "Some error occurred";
     try {
       if (email.isNotEmpty ||
-          password.isNotEmpty ||
-          username.isNotEmpty ||
-          bio.isNotEmpty ||
-          file != null) {
+              password.isNotEmpty ||
+              username.isNotEmpty ||
+              bio.isNotEmpty
+          // ||
+          // file != null
+          ) {
         // register User
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
             email: email, password: password);
-
+        print(cred.user!.uid);
         // add user to our database
+        await _firestore.collection('users').doc(cred.user!.uid).set({
+          'username': username,
+          'uid': cred.user!.uid,
+          'email': email,
+          'bio': bio,
+          'followers': [],
+          'following': [],
+        });
 
+        //
+        // await _firestore.collection('users').add({
+        //   'username': username,
+        //   'uid': cred.user!.uid,
+        //   'email': email,
+        //   'bio': bio,
+        //   'followers': [],
+        //   'following': [],
+        // });
+
+        res = "Success";
       }
     } catch (err) {
       res = err.toString();
