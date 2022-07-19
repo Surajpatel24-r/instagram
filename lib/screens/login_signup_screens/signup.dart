@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram/resources/auth_methods.dart';
+import 'package:instagram/responsive/mobile_layout.dart';
+import 'package:instagram/responsive/responsive_layout.dart';
+import 'package:instagram/responsive/web_layout.dart';
 import 'package:instagram/utils/colors.dart';
 import 'package:instagram/utils/utils.dart';
 import 'package:instagram/widgets/text_field_input.dart';
@@ -60,6 +63,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
       showSnackBar(res, context);
     } else {}
     print(res);
+  }
+
+  void navigateToLogin() {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (context) => ResponsiveLayoutScreen(
+        mobileScreenLayout: MobileLayoutScreen(),
+        webScreenLayout: WebLayoutScreen(),
+      ),
+    ));
   }
 
   @override
@@ -175,10 +187,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   padding: EdgeInsets.symmetric(vertical: 8),
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: navigateToLogin,
                   child: Container(
                     child: Text(
-                      "Sign up",
+                      "Login",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     padding: EdgeInsets.symmetric(vertical: 8),
